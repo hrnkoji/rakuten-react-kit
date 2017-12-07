@@ -18,6 +18,7 @@ import * as React from "react";
 
 import { List } from "components/list";
 import { Detail } from "components/detail";
+import Form from "components/form";
 
 import type { State } from "domain/store/state/main";
 import { detailRoute } from "domain/middleware/router";
@@ -39,6 +40,9 @@ export function App({ state } :
       case 'DETAIL_PAGE':
         const detail = state.detail;
         return <Detail detail={detail} />;
+      case 'FORM_PAGE':
+        const form = state.form;
+        return <Form form={form} />;
       default:
         return <p>Page not found</p>;
     }

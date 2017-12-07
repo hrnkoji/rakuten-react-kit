@@ -32,6 +32,10 @@ function detailRouter(onRoute : OnRoute) {
   page("/detail/:name", onRoute );
 }
 
+function formRouter(onRoute : OnRoute) {
+  page("/form", onRoute );
+}
+
 function homeRouter(onRoute : OnRoute) {
   page("", onRoute );
 }
@@ -43,6 +47,12 @@ export default function startRouters() {
     const name = ctx.params.name;
     getDetailByName(name).then(onDetailFromNetwork);
     store.dispatch(updateCurrentPageAction({ name: "DETAIL_PAGE" }));
+  });
+
+  formRouter((ctx) => {
+    logger.debug("Form route");
+    const name = ctx.params.name;
+    store.dispatch(updateCurrentPageAction({ name: "FORM_PAGE" }));
   });
 
   homeRouter((ctx) => {

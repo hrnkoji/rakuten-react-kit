@@ -16,7 +16,8 @@
 
 export type HomePage = { name: "HOME_PAGE" };
 export type DetailPage = { name: "DETAIL_PAGE" };
-export type Page = HomePage | DetailPage;
+export type FormPage = { name: "FORM_PAGE" };
+export type Page = HomePage | DetailPage | FormPage;
 export type Item = { name: string, url: string };
 export type DetailItem = {
   name: string,
@@ -35,13 +36,15 @@ export type State = {
   currentPage: Page,
   allItems: Array<Item>,
   filteredItems: Array<Item>,
-  detail: DetailItem
+  detail: DetailItem,
+  form: any
 };
 
 export const defaultState = {
   currentPage: { name: "HOME_PAGE" },
   allItems: [],
   filteredItems: [],
+  form: {},
   detail: {
     name: "",
     height: 0,
