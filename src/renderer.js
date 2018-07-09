@@ -28,8 +28,12 @@ export default function render(): void {
   // Log the rendering start time
   logger.time('DOM Render');
 
-  // Pass all props to the App component, and render to the target DOM element.
-  ReactDOM.render(<App state={state()} />, document.getElementById('app'));
+  const Dom = document.getElementById('app');
+
+  if (Dom) {
+    // Pass all props to the App component, and render to the target DOM element.
+    ReactDOM.render(<App state={state()} />, Dom);
+  }
 
   // Log the rendering end time
   logger.timeEnd('DOM Rendered');
