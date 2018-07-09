@@ -8,60 +8,77 @@
  */
 
 var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var extractStyles = new ExtractTextPlugin('style.css');
 module.exports = {
 
   entry: "./src/main",
+  cache: true,
 
   output: {
-    path: "./build",
+    path: path.resolve(__dirname, "build"),
+    publicPath: '/',
     filename: "bundle.js"
   },
 
   resolve: {
 
-    root: [
+    modules: [
       path.resolve("node_modules"),
-      path.resolve("src"),
+      path.resolve("src")
     ] ,
 
     extensions:
-      ["", ".webpack.js", ".web.js", ".js", ".jsx", ".scss", ".sass" ]
+      [".webpack.js", ".web.js", ".js", ".jsx", ".scss", ".sass" ]
 
   },
 
+  devServer: {
+    quiet: false,
+    historyApiFallback: {
+      index: "index.html"
+    }
+  },
+
+  plugins: [extractStyles],
   module: {
-    loaders: [
+    rules: [
+      // ESLint checking
+      {
+        enforce: 'pre',
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: 'eslint-loader'
+      },
 
       // Babel automatic loading
-      { test: /\.jsx?$/,
+      {
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel",
+        loader: "babel-loader",
         query: {
-          presets: ["react", "es2015"],
-          plugins: ["transform-flow-strip-types"]
+          cacheDirectory: true
         }
+      },
+
+      // CSS automatic loading
+      {
+        test: /\.css$/,
+        use: extractStyles.extract(['css-loader'])
       },
 
       // Sass automatic loading
       {
         test: /\.scss$|\.saas$/,
-        loaders: ["style", "css", "sass"]
+        use: extractStyles.extract(['css-loader', 'sass-loader'])
       },
 
       // Files
       { test: /\.(png|jpg|jpeg|svg|woff|woff2|eot|ttf)$/,
-        loader: "file-loader"
+        use: "file-loader"
       }
 
     ]
 
-  },
-
-  devServer: {
-    historyApiFallback: {
-      index: "index.html",
-      rewrites: [
-      ]
-    }
   }
-}
+};

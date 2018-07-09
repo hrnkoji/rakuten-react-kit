@@ -7,13 +7,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+ * BOF: src/domain/logger.js
+ * This file defines our 'logger' middleware.
+ */
+
 // @flow
 
-import Logger from "js-logger";
+import Logger from 'js-logger';
 
-
+// Initialise logger.
 Logger.useDefaults();
 
-export function getLogger(name : string) : Logger {
+// Export getLogger as an importable function
+export default function getLogger(name: string): Logger {
   return Logger.get(name);
 }
+
+/*
+ * EOF: src/domain/logger.js
+ */

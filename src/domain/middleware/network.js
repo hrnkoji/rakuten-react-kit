@@ -7,29 +7,67 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+ * BOF: src/domain/middleware/network.js
+ *
+ * This file represents the 'network actor' in your application.
+ * It contains handlers which dispatch all actions as a result of network events.
+ */
+
 // @flow
 
-import $ from "jquery";
-import { map } from "lodash";
+import axios from 'axios';
 
-import { getLogger } from "domain/logger";
+import { fromJS } from 'immutable';
+import getLogger from 'domain/logger';
 
-import { store } from "domain/store/main";
-import type { User } from "domain/store/state/main";
-import { updateUsersAction } from "domain/store/actions/main";
+import { store } from 'domain/store/main';
+import { updateAllItemsAction, updateFilteredItemsAction, displayDetailAction } from 'domain/store/actions/main';
 
-const logger = getLogger("Middleware/network");
+import type { Item, DetailItemFromNetwork } from 'domain/store/state/main';
 
-export function getUsers() {
-  const d = $.Deferred();
-  $.getJSON("http://reqres.in/api/users?page=2").then((response) => {
-    d.resolve(map(response.data,
-      (datum) => {
-        return {firstName: datum.first_name, lastName: datum.last_name}}))});
-  return d.promise();
+const logger = getLogger('Middleware/network');
+
+const URL = 'https://pokeapi.co/api/v2/type/1/';
+const URL_DETAIL = 'https://pokeapi.co/api/v2/pokemon/';
+
+export function getList() {
+  logger.debug('Requesting list from network');
+  return axios
+    .get(URL)
+    .then(response =>
+      response.data.pokemon.map(obj => ({
+        name: obj.pokemon.name,
+        url: obj.pokemon.url,
+      }))
+    )
+    .catch(logger.error);
 }
 
-export function onUsersFromNetwork(users : Array<User>) {
-  logger.debug("Users from network");
-  store.dispatch(updateUsersAction(users));
+export function getDetailByName(name: string) {
+  return axios
+    .get(`${URL_DETAIL}${name}`)
+    .then(response => response.data)
+    .catch(logger.error);
 }
+
+export function onListFromNetwork(list: Array<Item>) {
+  logger.debug('List from network');
+  store.dispatch(updateAllItemsAction(list));
+  store.dispatch(updateFilteredItemsAction(list));
+}
+
+function camelCaseImageFront(detail: DetailItemFromNetwork) {
+  return fromJS(detail)
+    .setIn(['sprites', 'frontDefault'], detail.sprites.front_default)
+    .toJS();
+}
+
+export function onDetailFromNetwork(detail: DetailItemFromNetwork) {
+  logger.debug('Detail from network');
+  store.dispatch(displayDetailAction(camelCaseImageFront(detail)));
+}
+
+/*
+ * EOF: src/domain/middleware/network.js
+ */

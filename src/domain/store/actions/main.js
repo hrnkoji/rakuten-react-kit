@@ -7,32 +7,56 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+ * BOF: src/domain/store/actions/main.js
+ *
+ * This file defines the actions for your application. It can be broken down
+ * into many different files depending on the size of your application. If you
+ * do, keep naming consistent and use this file as an index.
+ */
+
 // @flow
 
-import type { Page, User } from "domain/store/state/main";
+import type { Page, Item, DetailItem } from 'domain/store/state/main';
 
-export const actionNames = {
-  UPDATE_CURRENT_PAGE: "UPDATE_CURRENT_PAGE",
-  UPDATE_USERS: "UPDATE_USERS"
+type UpdateCurrentPageAction = {
+  type: 'UPDATE_CURRENT_PAGE',
+  page: Page,
+};
+
+type UpdateAllItemsAction = {
+  type: 'UPDATE_ALL_ITEMS',
+  allItems: Array<Item>,
+};
+
+type UpdateFilteredItemsAction = {
+  type: 'UPDATE_FILTERED_ITEMS',
+  filteredItems: Array<Item>,
+};
+
+type DisplayDetailAction = {
+  type: 'DISPLAY_DETAIL',
+  detail: DetailItem,
+};
+
+export type Action = UpdateCurrentPageAction | UpdateAllItemsAction | UpdateFilteredItemsAction | DisplayDetailAction;
+
+export function updateCurrentPageAction(page: Page): UpdateCurrentPageAction {
+  return { type: 'UPDATE_CURRENT_PAGE', page };
 }
 
-// FIXME Is there a way to get action types from actionNames?
-export type UpdateCurrentPageAction = {
-  type: "UPDATE_CURRENT_PAGE",
-  page: Page
+export function updateAllItemsAction(allItems: Array<Item>): UpdateAllItemsAction {
+  return { type: 'UPDATE_ALL_ITEMS', allItems };
 }
 
-export type UpdateUsersAction = {
-  type: "UPDATE_USERS",
-  users: Array<User>
+export function updateFilteredItemsAction(filteredItems: Array<Item>): UpdateFilteredItemsAction {
+  return { type: 'UPDATE_FILTERED_ITEMS', filteredItems };
 }
 
-export type Action = UpdateCurrentPageAction | UpdateUsersAction;
-
-export function updateCurrentPageAction(page: Page) : UpdateCurrentPageAction {
-  return { type: actionNames.UPDATE_CURRENT_PAGE, page };
+export function displayDetailAction(detail: DetailItem): DisplayDetailAction {
+  return { type: 'DISPLAY_DETAIL', detail };
 }
 
-export function updateUsersAction(users: Array<User>) {
-  return { type: actionNames.UPDATE_USERS, users}
-}
+/*
+ * EOF: src/domain/store/actions/main.js
+ */

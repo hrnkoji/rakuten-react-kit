@@ -7,35 +7,48 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+ * BOF: src/components/app.jsx
+ * This file defines the 'app' component and how it will be rendered.
+ */
+
 // @flow
 
-import * as ReactDOM from "react-dom";
-import * as React from "react";
+import React from 'react';
 
-import { Users } from "components/users";
+import List from 'components/list';
+import Detail from 'components/detail';
 
-export function App({ text, currentPageName, users } :
-                    { text: string,
-                      currentPageName: string,
-                      users : Array<{firstName: string, lastName: string}> } ) {
+import type { State } from 'domain/store/state/main';
+import { detailRoute } from 'domain/middleware/router';
+import onChangeIncrementalSearch from 'domain/middleware/user';
 
-  const content = ((pageName) => {
+// Define App as an importable function
+export default function App({ state }: { state: State }) {
+  const currentPageName = state.currentPage.name;
+
+  // Define a 'content' variable which outputs content
+  // according to the page routed to.
+  const content = (pageName => {
     switch (pageName) {
-      case "USERS_PAGE":
-        return <Users users={users} />;
-      default:
-        return(
-          <div>
-            <p> Rakuten says {text} </p>
-            <a href="/users">List of users</a>
-          </div>
-        );
+      case 'HOME_PAGE': {
+        const list = state.filteredItems;
+        return <List list={list} onChangeText={onChangeIncrementalSearch} detailRoute={detailRoute} />;
+      }
+      case 'DETAIL_PAGE': {
+        const detail = state.detail;
+        return <Detail detail={detail} />;
+      }
+      default: {
+        return <p>Page not found</p>;
+      }
     }
   })(currentPageName);
 
-  return (
-    <div>
-      { content }
-    </div>
-  );
+  // Return the component structure in HTML
+  return <div>{content}</div>;
 }
+
+/*
+ * EOF: src/components/app.jsx
+ */
