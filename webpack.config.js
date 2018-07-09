@@ -8,17 +8,18 @@
  */
 
 var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var extractStyles = new ExtractTextPlugin('style.css');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
+  mode: "development",
 
   entry: "./src/main",
   cache: true,
 
   output: {
+    filename: "bundle.js",
     path: path.resolve(__dirname, "build"),
-    publicPath: '/',
-    filename: "bundle.js"
+    publicPath: '/'
   },
 
   resolve: {
@@ -40,7 +41,9 @@ module.exports = {
     }
   },
 
-  plugins: [extractStyles],
+  plugins: [
+    new MiniCssExtractPlugin({ filename: 'style.css' })
+  ],
   module: {
     rules: [
       // ESLint checking
@@ -64,13 +67,23 @@ module.exports = {
       // CSS automatic loading
       {
         test: /\.css$/,
-        use: extractStyles.extract(['css-loader'])
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader'
+        ]
       },
 
       // Sass automatic loading
       {
         test: /\.scss$|\.saas$/,
-        use: extractStyles.extract(['css-loader', 'sass-loader'])
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader', 'sass-loader'
+        ]
       },
 
       // Files
