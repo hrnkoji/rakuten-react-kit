@@ -20,7 +20,12 @@ import reduceApp from 'domain/store/reduce/main';
 import type { State } from 'domain/store/state/main';
 
 // Create the store and make it an importable constant
-export const store = createStore(reduceApp);
+/* eslint-disable no-underscore-dangle */
+export const store = createStore(
+  reduceApp,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+/* eslint-enable */
 
 // We use this wrapper function so that we can have type checking
 export function state(): State {
