@@ -3,9 +3,6 @@
 [![Docs](https://img.shields.io/badge/docs-wiki-blue.svg)](https://github.com/rakuten-frontend/rakuten-react-kit/wiki)
 [![Gitter](https://img.shields.io/gitter/room/rakuten-frontend/rakuten-react-kit.svg?style=flat)](https://gitter.im/rakuten-frontend/rakuten-react-kit)
 
-## Version 2 notice
-
-Check the progress on the new version [here](https://github.com/rakuten-frontend/rakuten-react-kit/tree/feature/v2)
 
 ## Structure
 ```
