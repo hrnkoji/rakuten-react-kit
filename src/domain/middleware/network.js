@@ -18,7 +18,6 @@
 
 import axios from 'axios';
 
-import { fromJS } from 'immutable';
 import getLogger from 'domain/logger';
 
 import { store } from 'domain/store/main';
@@ -57,10 +56,9 @@ export function onListFromNetwork(list: Array<Item>) {
   store.dispatch(updateFilteredItemsAction(list));
 }
 
-function camelCaseImageFront(detail: DetailItemFromNetwork) {
-  return fromJS(detail)
-    .setIn(['sprites', 'frontDefault'], detail.sprites.front_default)
-    .toJS();
+// TODO Fix type
+function camelCaseImageFront(detail: DetailItemFromNetwork): any {
+  return { ...detail, sprites: { ...detail.sprites, frontDefault: detail.sprites.front_default } };
 }
 
 export function onDetailFromNetwork(detail: DetailItemFromNetwork) {
