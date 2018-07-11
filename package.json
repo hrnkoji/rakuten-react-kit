@@ -55,8 +55,10 @@
     "prettier": "^1.13.7",
     "sass-lint": "^1.10.2",
     "sass-loader": "^6.0.2",
+    "speed-measure-webpack-plugin": "^1.2.2",
     "style-loader": "^0.13.1",
     "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
     "webpack-serve": "^1.0.4"
   },
   "dependencies": {

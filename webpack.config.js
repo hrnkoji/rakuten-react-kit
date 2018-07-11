@@ -9,8 +9,11 @@
 
 var path = require('path');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+var SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
-module.exports = {
+var smp = new SpeedMeasurePlugin();
+
+module.exports = smp.wrap({
   mode: "development",
   devtool: "source-map",
 
@@ -95,4 +98,4 @@ module.exports = {
     ]
 
   }
-};
+});
