@@ -16,9 +16,11 @@ var smp = new SpeedMeasurePlugin();
 
 module.exports = smp.wrap({
   mode: "development",
+
   devtool: "source-map",
 
   entry: "./src/main",
+
   cache: true,
 
   output: {
@@ -28,7 +30,6 @@ module.exports = smp.wrap({
   },
 
   resolve: {
-
     modules: [
       path.resolve("node_modules"),
       path.resolve("src")
@@ -36,7 +37,6 @@ module.exports = smp.wrap({
 
     extensions:
       [".webpack.js", ".web.js", ".js", ".jsx", ".scss", ".sass" ]
-
   },
 
   devServer: {
@@ -50,6 +50,7 @@ module.exports = smp.wrap({
     new MiniCssExtractPlugin({ filename: 'style.css' }),
     new HardSourceWebpackPlugin()
   ],
+
   module: {
     rules: [
       // ESLint checking
@@ -96,8 +97,6 @@ module.exports = smp.wrap({
       { test: /\.(png|jpg|jpeg|svg|woff|woff2|eot|ttf)$/,
         use: "file-loader"
       }
-
     ]
-
   }
 });
