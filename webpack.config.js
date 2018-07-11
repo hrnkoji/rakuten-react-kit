@@ -11,6 +11,7 @@ var path = require('path');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+var DashboardPlugin = require('webpack-dashboard/plugin');
 
 var smp = new SpeedMeasurePlugin();
 
@@ -48,7 +49,8 @@ module.exports = smp.wrap({
 
   plugins: [
     new MiniCssExtractPlugin({ filename: 'style.css' }),
-    new HardSourceWebpackPlugin()
+    new HardSourceWebpackPlugin(),
+    new DashboardPlugin()
   ],
 
   module: {
