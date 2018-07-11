@@ -17,7 +17,6 @@
 // @flow
 
 import getLogger from 'domain/logger';
-import { filter, map, every } from 'lodash';
 
 import { store, state } from 'domain/store/main';
 import { updateFilteredItemsAction } from 'domain/store/actions/main';
@@ -30,9 +29,9 @@ function filterByName(name: string): Array<Item> {
   const allItems = state().allItems;
   if (name.length > 0) {
     const searchWordsArray = name.replace(/^[\s]+|[\s]+$/g, '').split(/\s/);
-    return filter(allItems, item => {
-      const results = map(searchWordsArray, word => item.name.search(new RegExp(word, 'i')));
-      return every(results, result => result !== -1);
+    return allItems.filter(item => {
+      const results = searchWordsArray.map(word => item.name.search(new RegExp(word, 'i')));
+      return results.every(result => result !== -1);
     });
   }
   return allItems;
