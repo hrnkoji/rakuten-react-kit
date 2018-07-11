@@ -3,4 +3,5 @@ npm-debug.log
 .idea/
 build/*.js
 build/*.css
+build/*.map
 .eslintcache
